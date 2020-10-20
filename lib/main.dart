@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:news_app/networkService/api_service.dart';
+import 'package:news_app/screens/landing_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   _setUpLogging();
-  runApp(MyApp());
+  runApp(MyNewsApp());
 }
 
 void _setUpLogging() {
@@ -14,12 +17,16 @@ void _setUpLogging() {
 
 }
 
-class MyApp extends StatelessWidget {
+class MyNewsApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-
+    return Provider(
+       create: (_) => ApiService.create(),
+       dispose: (_, ApiService service) => service.client.dispose(),
+       child: MaterialApp(
+         home: LandingScreen(),
+       ),
     );
   }
 }

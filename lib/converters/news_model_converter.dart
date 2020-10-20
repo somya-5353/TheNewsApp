@@ -36,7 +36,7 @@ class NewsModelConverter implements Converter {
     try {
       var mapData = json.decode(body);
       var news = NewsModel.fromJson(mapData);
-      return response.copyWith<BodyType>(body: NewsModel as BodyType);
+      return response.copyWith<BodyType>(body: news as BodyType);
     } catch(e) {
       chopperLogger.warning(e);
       return response.copyWith<BodyType>(body: body);
