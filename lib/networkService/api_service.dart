@@ -9,13 +9,13 @@ part 'api_service.chopper.dart';
 @ChopperApi()
 abstract class ApiService extends ChopperService {
 
-  @Get(path: 'movie/popular')
+  @Get(path: '/search')
 
   Future<Response<NewsModel>> getNews();
 
   static ApiService create() {
     final client = ChopperClient(
-       baseUrl:  'https://api.themoviedb.org/3',
+       baseUrl:  'https://content.guardianapis.com/',
        converter: NewsModelConverter(),
        errorConverter: JsonConverter(),
        interceptors: [HeaderInterceptor(), HttpLoggingInterceptor()],

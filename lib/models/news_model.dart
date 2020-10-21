@@ -6,19 +6,35 @@ part 'news_model.g.dart';
 @JsonSerializable()
 class NewsModel {
 
-  int page;
+  @JsonKey(name: 'status')
+  String status;
 
-  @JsonKey(name: 'total_results')
-  int totalResults;
+  @JsonKey(name: 'userTier')
+  String userTier;
 
-  @JsonKey(name: 'total_pages')
-  int totalPages;
+  @JsonKey(name: 'startIndex')
+  int startIndex;
+
+  @JsonKey(name: 'total')
+  int total;
+
+  @JsonKey(name: 'pageSize')
+  int pageSize;
+
+  @JsonKey(name: 'currentPage')
+  int currentPage;
+
+  @JsonKey(name: 'pages')
+  int pages;
+
+  @JsonKey(name: 'orderBy')
+  String orderBy;
 
   @JsonKey(name: 'results')
   List<Result> results;
 
 
-  NewsModel({this.page, this.totalResults, this.totalPages, this.results});
+  NewsModel({this.status, this.userTier, this.total, this.pages, this.pageSize, this.currentPage, this.startIndex, this.results, this.orderBy});
 
   factory NewsModel.fromJson(Map<String, dynamic> json) => _$NewsModelFromJson(json);
 
@@ -28,22 +44,29 @@ class NewsModel {
 @JsonSerializable()
 class Result {
 
-  @JsonKey(name: 'vote_count')
-  int voteCount;
-
-  @JsonKey(name: 'video')
-  bool video;
-
-  @JsonKey(name: 'poster_path')
-  String posterPath;
-
   @JsonKey(name: 'id')
-  int id;
+  String id;
 
-  @JsonKey(name: 'title')
-  String title;
+  @JsonKey(name: 'type')
+  String type;
 
-  Result({this.voteCount, this.video, this.posterPath, this.id, this.title});
+  @JsonKey(name: 'sectionId')
+  String sectionId;
+
+  @JsonKey(name: 'sectionName')
+  String sectionName;
+
+  @JsonKey(name: 'webPublicationDate')
+  String webPublicationDate;
+
+  @JsonKey(name: 'webTitle')
+  String webTitle;
+
+  @JsonKey(name: 'webUrl')
+  String webUrl;
+
+
+  Result({this.id, this.type, this.sectionName, this.sectionId, this.webPublicationDate, this.webUrl, this.webTitle});
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
 

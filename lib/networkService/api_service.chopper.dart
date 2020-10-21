@@ -18,7 +18,7 @@ class _$ApiService extends ApiService {
 
   @override
   Future<Response<NewsModel>> getNews() {
-    final $url = 'movie/popular';
+    final $url = '/search';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<NewsModel, NewsModel>($request);
   }

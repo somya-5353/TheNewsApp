@@ -20,6 +20,9 @@ class _LandingScreenState extends State<LandingScreen> {
   static const String AUTH_HEADER = 'api-key';
   static const String  V4_AUTH_HEADER = 'cc0eddbc-e726-4642-a4b9-7691925b7706';
 
+  List _elements = [];
+  int count = 0;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -37,20 +40,19 @@ class _LandingScreenState extends State<LandingScreen> {
     return FutureBuilder<Response<NewsModel>>(
       future: Provider.of<ApiService>(context).getNews(),
       builder: (ctx, snapshot) {
-        if(snapshot.connectionState == ConnectionState.done) {
-          if(snapshot.hasError) {
-            return Center(
-                child: Text(snapshot.error.toString(),
-                  textAlign: TextAlign.center,
-                )
-            );
-          }
-          final news = snapshot.data.body;
-          return _buildNewsList(ctx, news);
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+        switch(snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return Center(child: CircularProgressIndicator());
+            break;
+          default:
+          // Completed with error
+            if (snapshot.hasError)
+              return Container(child:Text(snapshot.error.toString()));
+
+            // Completed with data
+            final news = snapshot.data.body;
+            return _buildNewsList(ctx, news);
         }
       },
 
@@ -61,14 +63,14 @@ class _LandingScreenState extends State<LandingScreen> {
 
     return ListView.builder(
       padding: EdgeInsets.all(10),
-      itemCount: news.results.length,
+      itemCount: news.results?.length,
       itemBuilder: (ctx, i) {
         return Card(
           elevation: 3,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              news.results[i].title,
+              news.results[i].webTitle,
             ),
           ),
         );
