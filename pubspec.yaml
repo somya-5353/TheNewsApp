@@ -28,6 +28,7 @@ dependencies:
   provider: ^4.0.5
   json_annotation: ^3.0.1
   logging: ^0.11.4
+  flutter_cache_manager: ^2.0.0
 
 
 dev_dependencies:
