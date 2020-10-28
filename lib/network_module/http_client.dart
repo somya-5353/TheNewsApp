@@ -40,7 +40,7 @@ class HttpClient {
   }
 
   /// you can use the method when you want to cache the data
-  Future<dynamic> fetchDataAndCache(String url, {Map<String, String> params}) async {
+  Future<dynamic> fetchDataAndCache(String url, {Map<String, String> params, Map<String, String> headers}) async {
     var responseJson;
 
     var uri = APIBase.baseURL + url + ((params != null) ? this.queryParameters(params) : "");

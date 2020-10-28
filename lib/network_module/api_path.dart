@@ -1,5 +1,5 @@
 enum APIPath {
-  fetch_albums,
+  fetch_news,
 }
 
 class APIPathHelper{
