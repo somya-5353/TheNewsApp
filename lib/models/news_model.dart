@@ -36,7 +36,12 @@ class NewsModel {
 
   NewsModel({this.status, this.userTier, this.total, this.pages, this.pageSize, this.currentPage, this.startIndex, this.results, this.orderBy});
 
-  factory NewsModel.fromJson(Map<String, dynamic> json) => _$NewsModelFromJson(json);
+  factory NewsModel.fromJson(List<dynamic> json) {
+    return NewsModel(
+        results: json
+            .map((e) => Result.fromJson(e as Map<String, dynamic>))
+            .toList());
+  }
 
   Map<String, dynamic> toJson() => _$NewsModelToJson(this);
 }

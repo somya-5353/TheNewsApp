@@ -14,7 +14,7 @@ class NewsRepository {
     };
     final response = await HttpClient.instance.fetchDataAndCache(
         APIPathHelper.getValue(APIPath.fetch_news),
-        params: null, headers: headers);
+        params: null, header: headers);
 
     print("ResponseFromRepository - $response");
     return NewsModel.fromJson(response);

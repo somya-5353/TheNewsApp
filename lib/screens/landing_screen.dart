@@ -1,25 +1,28 @@
-import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/models/news_model.dart';
-import 'package:news_app/networkService/api_service.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app/repositories/news_repo.dart';
 
 class LandingScreen extends StatefulWidget {
   
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _LandingScreenState();
   }
-
-
 }
 
 class _LandingScreenState extends State<LandingScreen> {
 
-  static const String AUTH_HEADER = 'api-key';
-  static const String  V4_AUTH_HEADER = 'cc0eddbc-e726-4642-a4b9-7691925b7706';
+  NewsRepository _repo;
+  NewsModel _response;
+  bool _isFetched;
 
+  @override
+  void initState() {
+    _isFetched = false;
+    super.initState();
+    _repo = NewsRepository();
+    fetchNews();
+  }
   List _elements = [];
   int count = 0;
 
@@ -30,34 +33,39 @@ class _LandingScreenState extends State<LandingScreen> {
       appBar: AppBar(
         title: Text('News Headline'),
       ),
-      body: _buildList(context),
+      body: _buildNewsList(context, _response),
     );
   }
 
 
-  FutureBuilder<Response<NewsModel>> _buildList(BuildContext context) {
-
-    return FutureBuilder<Response<NewsModel>>(
-      future: Provider.of<ApiService>(context).getNews(),
-      builder: (ctx, snapshot) {
-        switch(snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator());
-            break;
-          default:
-          // Completed with error
-            if (snapshot.hasError)
-              return Container(child:Text(snapshot.error.toString()));
-
-            // Completed with data
-            final news = snapshot.data.body;
-            return _buildNewsList(ctx, news);
-        }
-      },
-
-    );
+  Future<NewsModel> fetchNews() async {
+    _response = await _repo.fetchNews();
+    _isFetched = true;
   }
+
+  // FutureBuilder<Response<NewsModel>> _buildList(BuildContext context) {
+  //
+  //   return FutureBuilder<Response<NewsModel>>(
+  //     future: Provider.of<ApiService>(context).getNews(),
+  //     builder: (ctx, snapshot) {
+  //       switch(snapshot.connectionState) {
+  //         case ConnectionState.none:
+  //         case ConnectionState.waiting:
+  //           return Center(child: CircularProgressIndicator());
+  //           break;
+  //         default:
+  //         // Completed with error
+  //           if (snapshot.hasError)
+  //             return Container(child:Text(snapshot.error.toString()));
+  //
+  //           // Completed with data
+  //           final news = snapshot.data.body;
+  //           return _buildNewsList(ctx, news);
+  //       }
+  //     },
+  //
+  //   );
+  // }
 
   ListView _buildNewsList(BuildContext ctx, NewsModel news) {
 

@@ -40,7 +40,7 @@ class HttpClient {
   }
 
   /// you can use the method when you want to cache the data
-  Future<dynamic> fetchDataAndCache(String url, {Map<String, String> params, Map<String, String> headers}) async {
+  Future<dynamic> fetchDataAndCache(String url, {Map<String, String> params, Map<String, String> header}) async {
     var responseJson;
 
     var uri = APIBase.baseURL + url + ((params != null) ? this.queryParameters(params) : "");
@@ -51,7 +51,7 @@ class HttpClient {
       'authorization': 'Basic your_api_token_here'
     };
     try {
-      var file = await DefaultCacheManager().getSingleFile(uri, headers: headers);
+      var file = await DefaultCacheManager().getSingleFile(uri, headers: header);
       if (file != null && await file.exists()) {
         var res = await file.readAsString();
         print(res.toString());
